@@ -1,0 +1,242 @@
+[gd_scene format=3 uid="uid://dbaphd5f33i3h"]
+
+[ext_resource type="Script" uid="uid://64qxq024lhta" path="res://scripts/hud.gd" id="1_hud"]
+
+[node name="HUD" type="CanvasLayer" unique_id=711287862]
+script = ExtResource("1_hud")
+
+[node name="Interface" type="Control" parent="." unique_id=480200037]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="StatsPanel" type="PanelContainer" parent="Interface" unique_id=949418260]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 348.0
+offset_bottom = 290.0
+
+[node name="Margin" type="MarginContainer" parent="Interface/StatsPanel" unique_id=1800984796]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 14
+
+[node name="VBox" type="VBoxContainer" parent="Interface/StatsPanel/Margin" unique_id=618960020]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="Interface/StatsPanel/Margin/VBox" unique_id=1358236696]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "ESTADO DEL TANQUE"
+
+[node name="DamageTitle" type="Label" parent="Interface/StatsPanel/Margin/VBox" unique_id=1322123908]
+layout_mode = 2
+text = "Zonas de daño"
+
+[node name="DamageGrid" type="GridContainer" parent="Interface/StatsPanel/Margin/VBox" unique_id=769493964]
+layout_mode = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 4
+columns = 3
+
+[node name="FrontColor" type="ColorRect" parent="Interface/StatsPanel/Margin/VBox/DamageGrid" unique_id=255490990]
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 2
+color = Color(0.294118, 0.827451, 0.482353, 1)
+
+[node name="FrontName" type="Label" parent="Interface/StatsPanel/Margin/VBox/DamageGrid" unique_id=1023435604]
+layout_mode = 2
+text = "Frontal"
+
+[node name="FrontState" type="Label" parent="Interface/StatsPanel/Margin/VBox/DamageGrid" unique_id=1788821861]
+layout_mode = 2
+text = "OK"
+
+[node name="RearColor" type="ColorRect" parent="Interface/StatsPanel/Margin/VBox/DamageGrid" unique_id=1747286634]
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 2
+color = Color(0.294118, 0.827451, 0.482353, 1)
+
+[node name="RearName" type="Label" parent="Interface/StatsPanel/Margin/VBox/DamageGrid" unique_id=1239346017]
+layout_mode = 2
+text = "Trasero"
+
+[node name="RearState" type="Label" parent="Interface/StatsPanel/Margin/VBox/DamageGrid" unique_id=883866087]
+layout_mode = 2
+text = "OK"
+
+[node name="LeftColor" type="ColorRect" parent="Interface/StatsPanel/Margin/VBox/DamageGrid" unique_id=987885426]
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 2
+color = Color(0.294118, 0.827451, 0.482353, 1)
+
+[node name="LeftName" type="Label" parent="Interface/StatsPanel/Margin/VBox/DamageGrid" unique_id=498780809]
+layout_mode = 2
+text = "Izquierdo"
+
+[node name="LeftState" type="Label" parent="Interface/StatsPanel/Margin/VBox/DamageGrid" unique_id=213467982]
+layout_mode = 2
+text = "OK"
+
+[node name="RightColor" type="ColorRect" parent="Interface/StatsPanel/Margin/VBox/DamageGrid" unique_id=1379374353]
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 2
+color = Color(0.294118, 0.827451, 0.482353, 1)
+
+[node name="RightName" type="Label" parent="Interface/StatsPanel/Margin/VBox/DamageGrid" unique_id=1251320699]
+layout_mode = 2
+text = "Derecho"
+
+[node name="RightState" type="Label" parent="Interface/StatsPanel/Margin/VBox/DamageGrid" unique_id=1580529956]
+layout_mode = 2
+text = "OK"
+
+[node name="TurretColor" type="ColorRect" parent="Interface/StatsPanel/Margin/VBox/DamageGrid" unique_id=1932295756]
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 2
+color = Color(0.294118, 0.827451, 0.482353, 1)
+
+[node name="TurretName" type="Label" parent="Interface/StatsPanel/Margin/VBox/DamageGrid" unique_id=2064813296]
+layout_mode = 2
+text = "Torreta"
+
+[node name="TurretState" type="Label" parent="Interface/StatsPanel/Margin/VBox/DamageGrid" unique_id=257504933]
+layout_mode = 2
+text = "OK"
+
+[node name="AttackValue" type="Label" parent="Interface/StatsPanel/Margin/VBox" unique_id=1126464355]
+layout_mode = 2
+text = "Cadencia: 0.50 s  |  2.00 disparos/s"
+
+[node name="MovementValue" type="Label" parent="Interface/StatsPanel/Margin/VBox" unique_id=299799650]
+layout_mode = 2
+text = "Movimiento: 35 px/s"
+
+[node name="RunPanel" type="PanelContainer" parent="Interface" unique_id=1388535546]
+layout_mode = 0
+offset_left = 932.0
+offset_top = 24.0
+offset_right = 1256.0
+offset_bottom = 206.0
+
+[node name="Margin" type="MarginContainer" parent="Interface/RunPanel" unique_id=1690897780]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 14
+
+[node name="VBox" type="VBoxContainer" parent="Interface/RunPanel/Margin" unique_id=1278748148]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="Interface/RunPanel/Margin/VBox" unique_id=43995507]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "PARTIDA"
+
+[node name="TimeValue" type="Label" parent="Interface/RunPanel/Margin/VBox" unique_id=1320739022]
+layout_mode = 2
+text = "Tiempo: 00:00"
+
+[node name="EnemiesValue" type="Label" parent="Interface/RunPanel/Margin/VBox" unique_id=1101988538]
+layout_mode = 2
+text = "Enemigos: 0 / 20"
+
+[node name="DefeatedValue" type="Label" parent="Interface/RunPanel/Margin/VBox" unique_id=1665829788]
+layout_mode = 2
+text = "Eliminados: 0"
+
+[node name="DifficultyValue" type="Label" parent="Interface/RunPanel/Margin/VBox" unique_id=111952782]
+layout_mode = 2
+text = "Dificultad: nivel 1"
+
+[node name="ShopPanel" type="PanelContainer" parent="Interface" unique_id=415508522]
+layout_mode = 0
+offset_left = 801.0
+offset_top = 435.0
+offset_right = 1253.0
+offset_bottom = 705.0
+
+[node name="Margin" type="MarginContainer" parent="Interface/ShopPanel" unique_id=1363240913]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+
+[node name="VBox" type="VBoxContainer" parent="Interface/ShopPanel/Margin" unique_id=337072043]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Title" type="Label" parent="Interface/ShopPanel/Margin/VBox" unique_id=87907496]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "TIENDA"
+
+[node name="CreditsValue" type="Label" parent="Interface/ShopPanel/Margin/VBox" unique_id=195037865]
+layout_mode = 2
+text = "Créditos: 0"
+
+[node name="ShopGrid" type="GridContainer" parent="Interface/ShopPanel/Margin/VBox" unique_id=1118349572]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/h_separation = 6
+theme_override_constants/v_separation = 6
+columns = 2
+
+[node name="repair_chassis_front" type="Button" parent="Interface/ShopPanel/Margin/VBox/ShopGrid" unique_id=1302474285]
+custom_minimum_size = Vector2(205, 32)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Reparar frontal  $10"
+
+[node name="repair_chassis_rear" type="Button" parent="Interface/ShopPanel/Margin/VBox/ShopGrid" unique_id=1006960332]
+custom_minimum_size = Vector2(205, 32)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Reparar trasero  $10"
+
+[node name="repair_chassis_left" type="Button" parent="Interface/ShopPanel/Margin/VBox/ShopGrid" unique_id=247203687]
+custom_minimum_size = Vector2(205, 32)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Reparar izquierdo  $10"
+
+[node name="repair_chassis_right" type="Button" parent="Interface/ShopPanel/Margin/VBox/ShopGrid" unique_id=1361389145]
+custom_minimum_size = Vector2(205, 32)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Reparar derecho  $10"
+
+[node name="repair_turret" type="Button" parent="Interface/ShopPanel/Margin/VBox/ShopGrid" unique_id=1142307762]
+custom_minimum_size = Vector2(205, 32)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Reparar torreta  $15"
+
+[node name="upgrade_armor" type="Button" parent="Interface/ShopPanel/Margin/VBox/ShopGrid" unique_id=1904319245]
+custom_minimum_size = Vector2(205, 32)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Mejorar blindaje  $25"
+
+[node name="upgrade_fire_rate" type="Button" parent="Interface/ShopPanel/Margin/VBox/ShopGrid" unique_id=219628273]
+custom_minimum_size = Vector2(205, 32)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "M. cadencia  $25"
+
+[node name="upgrade_turret_rotation" type="Button" parent="Interface/ShopPanel/Margin/VBox/ShopGrid" unique_id=887182815]
+custom_minimum_size = Vector2(205, 32)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "M. giro torreta  $25"

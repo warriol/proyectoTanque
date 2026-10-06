@@ -1,0 +1,113 @@
+[gd_scene load_steps=11 format=3 uid="uid://bmwqdjr1g4na6"]
+
+[ext_resource type="Script" uid="uid://b6dsxh4a30dn4" path="res://scripts/tank.gd" id="1_tank"]
+[ext_resource type="AudioStream" path="res://audio/sfx/tank_engine.wav" id="2_engine"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wawvw"]
+size = Vector2(72, 48)
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_y2j6c"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_hlnuv"]
+specular_color = Color(0.3918165, 0.5262423, 0.8082261, 1)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hglwx"]
+radius = 279.90176
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_front"]
+size = Vector2(18, 48)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rear"]
+size = Vector2(18, 48)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_left"]
+size = Vector2(36, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_right"]
+size = Vector2(36, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_turret"]
+size = Vector2(69.5, 8)
+
+[node name="Tank" type="CharacterBody2D" unique_id=115752457]
+script = ExtResource("1_tank")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=322357259]
+shape = SubResource("RectangleShape2D_wawvw")
+
+[node name="ChassisSprite" type="Sprite2D" parent="." unique_id=2024608811]
+position = Vector2(9.536743e-07, -7.1525574e-07)
+scale = Vector2(72, 48)
+texture = SubResource("CanvasTexture_y2j6c")
+
+[node name="Turret" type="Node2D" parent="." unique_id=461013219]
+
+[node name="TurretSprite" type="Sprite2D" parent="Turret" unique_id=873749268]
+position = Vector2(34.25, -5.9604645e-08)
+scale = Vector2(69.5, 8)
+texture = SubResource("CanvasTexture_hlnuv")
+
+[node name="Muzzle" type="Node2D" parent="Turret" unique_id=313387293]
+position = Vector2(69, -1)
+
+[node name="ShootTimer" type="Timer" parent="." unique_id=2053497558]
+
+[node name="EngineSound" type="AudioStreamPlayer2D" parent="." unique_id=2053497559]
+stream = ExtResource("2_engine")
+volume_db = -8.0
+
+[connection signal="finished" from="EngineSound" to="." method="_on_engine_sound_finished"]
+
+[node name="DetectionArea" type="Area2D" parent="." unique_id=177625585]
+position = Vector2(0, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=234579321]
+position = Vector2(4, -6)
+shape = SubResource("CircleShape2D_hglwx")
+
+[node name="DamageZones" type="Node2D" parent="."]
+
+[node name="ChassisFrontZone" type="Area2D" parent="DamageZones"]
+collision_layer = 0
+collision_mask = 1
+metadata/damage_zone = "chassis_front"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageZones/ChassisFrontZone"]
+position = Vector2(27, 0)
+shape = SubResource("RectangleShape2D_front")
+
+[node name="ChassisRearZone" type="Area2D" parent="DamageZones"]
+collision_layer = 0
+collision_mask = 1
+metadata/damage_zone = "chassis_rear"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageZones/ChassisRearZone"]
+position = Vector2(-27, 0)
+shape = SubResource("RectangleShape2D_rear")
+
+[node name="ChassisLeftZone" type="Area2D" parent="DamageZones"]
+collision_layer = 0
+collision_mask = 1
+metadata/damage_zone = "chassis_left"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageZones/ChassisLeftZone"]
+position = Vector2(0, -16)
+shape = SubResource("RectangleShape2D_left")
+
+[node name="ChassisRightZone" type="Area2D" parent="DamageZones"]
+collision_layer = 0
+collision_mask = 1
+metadata/damage_zone = "chassis_right"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageZones/ChassisRightZone"]
+position = Vector2(0, 16)
+shape = SubResource("RectangleShape2D_right")
+
+[node name="TurretZone" type="Area2D" parent="Turret"]
+collision_layer = 0
+collision_mask = 1
+metadata/damage_zone = "turret"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Turret/TurretZone"]
+position = Vector2(34.25, 0)
+shape = SubResource("RectangleShape2D_turret")

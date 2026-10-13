@@ -18,6 +18,7 @@ var is_turret_damaged: bool = false
 
 # --- REFERENCIAS A NODOS ---
 @onready var turret: Node2D = $Turret
+@onready var turret_sprite: Sprite2D = $Turret/TurretSprite
 @onready var muzzle: Node2D = $Turret/Muzzle
 @onready var shoot_timer: Timer = $ShootTimer
 @onready var detection_area: Area2D = $DetectionArea
@@ -26,6 +27,8 @@ var is_turret_damaged: bool = false
 @onready var engine_sound: AudioStreamPlayer2D = $EngineSound
 
 @export var bullet_sound: AudioStream = preload("res://audio/sfx/bullet_shoot.wav")
+@export var normal_turret_texture: Texture2D = preload("res://art/tank/tank_turret.png")
+@export var damaged_turret_texture: Texture2D = preload("res://art/tank/tank_turret_damaged.png")
 
 var target_enemy: Node2D = null
 var impact_count: int = 0
@@ -43,6 +46,7 @@ func _ready() -> void:
 	aim_tolerance_degrees = GameSettings.DEFAULT_AIM_TOLERANCE_DEGREES
 	fire_rate = GameSettings.DEFAULT_FIRE_RATE
 	max_impacts = GameSettings.DEFAULT_MAX_IMPACTS
+	_update_turret_visual()
 	shoot_timer.wait_time = fire_rate
 	shoot_timer.timeout.connect(_on_shoot_timer_timeout)
 	shoot_timer.start()
@@ -156,6 +160,7 @@ func _on_damage_zone_body_entered(body: Node2D, zone: Area2D) -> void:
 	damaged_zones[zone_id] = true
 	if zone_id == "turret":
 		is_turret_damaged = true
+		_update_turret_visual()
 		shoot_timer.wait_time = fire_rate * 2.0
 	else:
 		is_chasis_damaged = true
@@ -171,6 +176,7 @@ func repair_zone(zone_id: String) -> bool:
 	impact_count = maxi(impact_count - 1, 0)
 	if zone_id == "turret":
 		is_turret_damaged = false
+		_update_turret_visual()
 	else:
 		is_chasis_damaged = false
 		for damaged_zone in damaged_zones:
@@ -204,6 +210,9 @@ func upgrade_turret_rotation() -> bool:
 
 func _refresh_shoot_timer() -> void:
 	shoot_timer.wait_time = fire_rate * (2.0 if is_turret_damaged else 1.0)
+
+func _update_turret_visual() -> void:
+	turret_sprite.texture = damaged_turret_texture if is_turret_damaged else normal_turret_texture
 
 func _trigger_game_over() -> void:
 	var current_scene := get_tree().current_scene

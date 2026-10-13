@@ -65,16 +65,16 @@ func _on_spawn_timer_timeout() -> void:
 	var robot := robot_scene.instantiate() as Robot
 	robot.target = target
 	robot.speed = enemy_base_speed
-	robot.set_difficulty_level(enemy_speed_level, enemy_speed_increase)
 	robot.global_position = _get_spawn_position()
 	get_parent().add_child(robot)
+	robot.set_difficulty_level(enemy_speed_level, enemy_speed_increase)
 
 func register_enemy_defeated() -> void:
 	defeated_enemies += 1
 	_update_spawn_difficulty()
 
 func _update_spawn_difficulty() -> void:
-	var defeat_level := int(defeated_enemies / enemies_per_difficulty)
+	var defeat_level := int((defeated_enemies / enemies_per_difficulty)^2)
 	max_enemies = initial_max_enemies + defeat_level * enemy_capacity_increase + time_spawn_level * enemy_capacity_time_increase
 	var defeat_interval_reduction := defeat_level * spawn_interval_decrease
 	var time_interval_reduction := time_spawn_level * spawn_interval_time_decrease

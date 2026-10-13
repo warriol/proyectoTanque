@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene format=3 uid="uid://bfftcgfmonn4k"]
 
-[ext_resource type="Script" path="res://scripts/main_arena.gd" id="1_arena"]
-[ext_resource type="PackedScene" path="res://scenes/tank.tscn" id="2_tank"]
-[ext_resource type="Script" path="res://scripts/spawner.gd" id="3_spawner"]
-[ext_resource type="PackedScene" path="res://ui/hud.tscn" id="4_hud"]
+[ext_resource type="Script" uid="uid://cic4qoii0yxtv" path="res://scripts/main_arena.gd" id="1_arena"]
+[ext_resource type="Texture2D" uid="uid://b2txsxu5hiq10" path="res://art/backgrounds/arena_background.jpg" id="2_gd0x5"]
+[ext_resource type="PackedScene" uid="uid://bmwqdjr1g4na6" path="res://scenes/tank.tscn" id="2_tank"]
+[ext_resource type="Script" uid="uid://ckyp5iyl6w7hv" path="res://scripts/spawner.gd" id="3_spawner"]
+[ext_resource type="PackedScene" uid="uid://dbaphd5f33i3h" path="res://ui/hud.tscn" id="4_hud"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_top"]
 size = Vector2(1280, 32)
@@ -17,31 +18,36 @@ size = Vector2(32, 720)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_right"]
 size = Vector2(32, 720)
 
-[node name="MainArena" type="Node2D"]
+[node name="MainArena" type="Node2D" unique_id=434782746]
 script = ExtResource("1_arena")
 
-[node name="ArenaBounds" type="StaticBody2D" parent="."]
+[node name="Bakcground" type="Sprite2D" parent="." unique_id=1981451669]
+position = Vector2(637.5, 355)
+scale = Vector2(0.46184593, 0.45703125)
+texture = ExtResource("2_gd0x5")
 
-[node name="Top" type="CollisionShape2D" parent="ArenaBounds"]
+[node name="ArenaBounds" type="StaticBody2D" parent="." unique_id=1465603205]
+
+[node name="Top" type="CollisionShape2D" parent="ArenaBounds" unique_id=1702711586]
 position = Vector2(640, 16)
 shape = SubResource("RectangleShape2D_top")
 
-[node name="Bottom" type="CollisionShape2D" parent="ArenaBounds"]
+[node name="Bottom" type="CollisionShape2D" parent="ArenaBounds" unique_id=1222960825]
 position = Vector2(640, 704)
 shape = SubResource("RectangleShape2D_bottom")
 
-[node name="Left" type="CollisionShape2D" parent="ArenaBounds"]
+[node name="Left" type="CollisionShape2D" parent="ArenaBounds" unique_id=31031421]
 position = Vector2(16, 360)
 shape = SubResource("RectangleShape2D_left")
 
-[node name="Right" type="CollisionShape2D" parent="ArenaBounds"]
+[node name="Right" type="CollisionShape2D" parent="ArenaBounds" unique_id=207277411]
 position = Vector2(1264, 360)
 shape = SubResource("RectangleShape2D_right")
 
-[node name="Tank" parent="." instance=ExtResource("2_tank")]
+[node name="Tank" parent="." unique_id=97466596 instance=ExtResource("2_tank")]
 position = Vector2(640, 360)
 
-[node name="Spawner" type="Node2D" parent="."]
+[node name="Spawner" type="Node2D" parent="." unique_id=1481918006]
 script = ExtResource("3_spawner")
 
-[node name="HUD" parent="." instance=ExtResource("4_hud")]
+[node name="HUD" parent="." unique_id=478713806 instance=ExtResource("4_hud")]

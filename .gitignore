@@ -8,6 +8,8 @@
 .vscode
 /android/
 /Godot_v4.7.2/
+/libresprite-v1.3-windows-x86_64/
+
 
 # User-specific files
 *.rsuser

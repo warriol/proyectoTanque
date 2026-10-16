@@ -1,9 +1,9 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://dy3bvt2vj2onc"]
 
-[ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_menu"]
-[ext_resource type="Texture2D" path="res://art/ui/config_icon.png" id="2_config"]
+[ext_resource type="Script" uid="uid://bnyefufc7i5rd" path="res://scripts/main_menu.gd" id="1_menu"]
+[ext_resource type="Texture2D" uid="uid://d1ayxdssdfpxj" path="res://art/ui/config_icon.png" id="2_config"]
 
-[node name="MainMenu" type="Control"]
+[node name="MainMenu" type="Control" unique_id=2098310623]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,25 +12,24 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_menu")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Background" type="ColorRect" parent="." unique_id=381615574]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.0627451, 0.0941176, 0.12549, 1)
 mouse_filter = 2
+color = Color(0.0627451, 0.0941176, 0.12549, 1)
 
-[node name="AccentTop" type="ColorRect" parent="."]
-offset_left = 0.0
-offset_top = 0.0
+[node name="AccentTop" type="ColorRect" parent="." unique_id=25112302]
+layout_mode = 0
 offset_right = 1280.0
 offset_bottom = 8.0
+mouse_filter = 2
 color = Color(0.431373, 0.827451, 0.811765, 1)
-mouse_filter = 2
 
-[node name="Center" type="CenterContainer" parent="."]
+[node name="Center" type="CenterContainer" parent="." unique_id=573817479]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -38,116 +37,117 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="SettingsBackdrop" type="ColorRect" parent="."]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.00784314, 0.0117647, 0.0196078, 0.92)
-mouse_filter = 2
-
-[node name="Panel" type="PanelContainer" parent="Center"]
+[node name="Panel" type="PanelContainer" parent="Center" unique_id=1651886546]
 custom_minimum_size = Vector2(480, 300)
 layout_mode = 2
 
-[node name="Margin" type="MarginContainer" parent="Center/Panel"]
+[node name="Margin" type="MarginContainer" parent="Center/Panel" unique_id=90765184]
 layout_mode = 2
 theme_override_constants/margin_left = 42
 theme_override_constants/margin_top = 38
 theme_override_constants/margin_right = 42
 theme_override_constants/margin_bottom = 38
 
-[node name="VBox" type="VBoxContainer" parent="Center/Panel/Margin"]
+[node name="VBox" type="VBoxContainer" parent="Center/Panel/Margin" unique_id=1850165236]
 layout_mode = 2
 theme_override_constants/separation = 18
 alignment = 1
 
-[node name="Title" type="Label" parent="Center/Panel/Margin/VBox"]
+[node name="Title" type="Label" parent="Center/Panel/Margin/VBox" unique_id=1795051947]
 layout_mode = 2
-text = "TANK OVERDRIVE"
-horizontal_alignment = 1
 theme_override_colors/font_color = Color(0.431373, 0.827451, 0.811765, 1)
 theme_override_font_sizes/font_size = 42
-
-[node name="Subtitle" type="Label" parent="Center/Panel/Margin/VBox"]
-layout_mode = 2
-text = "AUTO-DEFENDER"
+text = "TANK OVERDRIVE"
 horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="Center/Panel/Margin/VBox" unique_id=2060219760]
+layout_mode = 2
 theme_override_colors/font_color = Color(0.666667, 0.721569, 0.729412, 1)
 theme_override_font_sizes/font_size = 18
+text = "AUTO-DEFENDER"
+horizontal_alignment = 1
 
-[node name="Spacer" type="Control" parent="Center/Panel/Margin/VBox"]
+[node name="Spacer" type="Control" parent="Center/Panel/Margin/VBox" unique_id=1201666201]
 custom_minimum_size = Vector2(0, 18)
 layout_mode = 2
 
-[node name="PlayButton" type="Button" parent="Center/Panel/Margin/VBox"]
+[node name="PlayButton" type="Button" parent="Center/Panel/Margin/VBox" unique_id=2071388204]
 custom_minimum_size = Vector2(0, 54)
 layout_mode = 2
-text = "JUGAR"
 theme_override_font_sizes/font_size = 22
+text = "JUGAR"
 
-[node name="SettingsButton" type="Button" parent="Center/Panel/Margin/VBox"]
-custom_minimum_size = Vector2(0, 42)
+[node name="SettingsButton" type="Button" parent="Center/Panel/Margin/VBox" unique_id=1261812715]
+custom_minimum_size = Vector2(0, 54)
 layout_mode = 2
+theme_override_icons/icon = ExtResource("2_config")
 text = "CONFIGURACIÓN"
-icon = ExtResource("2_config")
 expand_icon = true
 
-[node name="RecordsButton" type="Button" parent="Center/Panel/Margin/VBox"]
-custom_minimum_size = Vector2(0, 42)
+[node name="RecordsButton" type="Button" parent="Center/Panel/Margin/VBox" unique_id=1277829074]
+custom_minimum_size = Vector2(0, 54)
 layout_mode = 2
 text = "RECORDS"
 
-[node name="SettingsPanel" type="PanelContainer" parent="."]
+[node name="SettingsBackdrop" type="ColorRect" parent="." unique_id=1373233447]
 visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.00784314, 0.0117647, 0.0196078, 0.92)
+
+[node name="SettingsPanel" type="PanelContainer" parent="." unique_id=251218179]
+visible = false
+layout_mode = 0
 offset_left = 350.0
 offset_top = 25.0
 offset_right = 930.0
 offset_bottom = 695.0
 
-[node name="Margin" type="MarginContainer" parent="SettingsPanel"]
+[node name="Margin" type="MarginContainer" parent="SettingsPanel" unique_id=40753265]
 layout_mode = 2
 theme_override_constants/margin_left = 24
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 24
 theme_override_constants/margin_bottom = 16
 
-[node name="VBox" type="VBoxContainer" parent="SettingsPanel/Margin"]
+[node name="VBox" type="VBoxContainer" parent="SettingsPanel/Margin" unique_id=1277171135]
 layout_mode = 2
 theme_override_constants/separation = 5
 
-[node name="Title" type="Label" parent="SettingsPanel/Margin/VBox"]
+[node name="Title" type="Label" parent="SettingsPanel/Margin/VBox" unique_id=362122551]
 layout_mode = 2
+theme_override_font_sizes/font_size = 24
 text = "CONFIGURACIÓN DE PARTIDA"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 24
 
-[node name="SpawnTitle" type="Label" parent="SettingsPanel/Margin/VBox"]
+[node name="SpawnTitle" type="Label" parent="SettingsPanel/Margin/VBox" unique_id=1195956531]
 layout_mode = 2
 text = "Intervalo de aparición"
 
-[node name="SpawnSlider" type="HSlider" parent="SettingsPanel/Margin/VBox"]
+[node name="SpawnSlider" type="HSlider" parent="SettingsPanel/Margin/VBox" unique_id=1379499017]
 custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
+tooltip_text = "Menor intervalo significa apariciones más rápidas"
 min_value = 0.5
 max_value = 1.5
 step = 0.05
 value = 1.0
-tooltip_text = "Menor intervalo significa apariciones más rápidas"
 
-[node name="SpawnValue" type="Label" parent="SettingsPanel/Margin/VBox"]
+[node name="SpawnValue" type="Label" parent="SettingsPanel/Margin/VBox" unique_id=1719472981]
 layout_mode = 2
 text = "1.00 s entre apariciones"
 horizontal_alignment = 1
 
-[node name="SpeedTitle" type="Label" parent="SettingsPanel/Margin/VBox"]
+[node name="SpeedTitle" type="Label" parent="SettingsPanel/Margin/VBox" unique_id=1612818320]
 layout_mode = 2
 text = "Velocidad de enemigos"
 
-[node name="SpeedSlider" type="HSlider" parent="SettingsPanel/Margin/VBox"]
+[node name="SpeedSlider" type="HSlider" parent="SettingsPanel/Margin/VBox" unique_id=395079899]
 custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
 min_value = 50.0
@@ -155,16 +155,16 @@ max_value = 150.0
 step = 5.0
 value = 100.0
 
-[node name="SpeedValue" type="Label" parent="SettingsPanel/Margin/VBox"]
+[node name="SpeedValue" type="Label" parent="SettingsPanel/Margin/VBox" unique_id=744216662]
 layout_mode = 2
 text = "100 px/s"
 horizontal_alignment = 1
 
-[node name="DetectionTitle" type="Label" parent="SettingsPanel/Margin/VBox"]
+[node name="DetectionTitle" type="Label" parent="SettingsPanel/Margin/VBox" unique_id=423874227]
 layout_mode = 2
 text = "Área de reacción del tanque"
 
-[node name="DetectionSlider" type="HSlider" parent="SettingsPanel/Margin/VBox"]
+[node name="DetectionSlider" type="HSlider" parent="SettingsPanel/Margin/VBox" unique_id=121179506]
 custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
 min_value = 150.0
@@ -172,88 +172,89 @@ max_value = 410.0
 step = 10.0
 value = 280.0
 
-[node name="DetectionValue" type="Label" parent="SettingsPanel/Margin/VBox"]
+[node name="DetectionValue" type="Label" parent="SettingsPanel/Margin/VBox" unique_id=1177202840]
 layout_mode = 2
 text = "280 px de radio"
 horizontal_alignment = 1
 
-[node name="SfxTitle" type="Label" parent="SettingsPanel/Margin/VBox"]
+[node name="SfxTitle" type="Label" parent="SettingsPanel/Margin/VBox" unique_id=1367902210]
 layout_mode = 2
 text = "Volumen de efectos"
 
-[node name="SfxSlider" type="HSlider" parent="SettingsPanel/Margin/VBox"]
+[node name="SfxSlider" type="HSlider" parent="SettingsPanel/Margin/VBox" unique_id=1966646188]
 custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
 max_value = 1.0
 step = 0.05
 value = 0.8
 
-[node name="SfxValue" type="Label" parent="SettingsPanel/Margin/VBox"]
+[node name="SfxValue" type="Label" parent="SettingsPanel/Margin/VBox" unique_id=481502420]
 layout_mode = 2
 text = "80%"
 horizontal_alignment = 1
 
-[node name="MusicTitle" type="Label" parent="SettingsPanel/Margin/VBox"]
+[node name="MusicTitle" type="Label" parent="SettingsPanel/Margin/VBox" unique_id=722328188]
 layout_mode = 2
 text = "Volumen de música"
 
-[node name="MusicSlider" type="HSlider" parent="SettingsPanel/Margin/VBox"]
+[node name="MusicSlider" type="HSlider" parent="SettingsPanel/Margin/VBox" unique_id=620837501]
 custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
 max_value = 1.0
 step = 0.05
 value = 0.6
 
-[node name="MusicValue" type="Label" parent="SettingsPanel/Margin/VBox"]
+[node name="MusicValue" type="Label" parent="SettingsPanel/Margin/VBox" unique_id=1808847169]
 layout_mode = 2
 text = "60%"
 horizontal_alignment = 1
 
-[node name="ApplyButton" type="Button" parent="SettingsPanel/Margin/VBox"]
+[node name="ApplyButton" type="Button" parent="SettingsPanel/Margin/VBox" unique_id=189693308]
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 text = "APLICAR"
 
-[node name="ResetButton" type="Button" parent="SettingsPanel/Margin/VBox"]
+[node name="ResetButton" type="Button" parent="SettingsPanel/Margin/VBox" unique_id=1331039720]
 custom_minimum_size = Vector2(0, 38)
 layout_mode = 2
 text = "RESTABLECER VALORES"
 
-[node name="BackButton" type="Button" parent="SettingsPanel/Margin/VBox"]
+[node name="BackButton" type="Button" parent="SettingsPanel/Margin/VBox" unique_id=1761459793]
 custom_minimum_size = Vector2(0, 38)
 layout_mode = 2
 text = "VOLVER"
 
-[node name="RecordsPanel" type="PanelContainer" parent="."]
+[node name="RecordsPanel" type="PanelContainer" parent="." unique_id=1580043902]
 visible = false
+layout_mode = 0
 offset_left = 290.0
 offset_top = 170.0
 offset_right = 990.0
 offset_bottom = 550.0
 
-[node name="Margin" type="MarginContainer" parent="RecordsPanel"]
+[node name="Margin" type="MarginContainer" parent="RecordsPanel" unique_id=256102860]
 layout_mode = 2
 theme_override_constants/margin_left = 28
 theme_override_constants/margin_top = 24
 theme_override_constants/margin_right = 28
 theme_override_constants/margin_bottom = 24
 
-[node name="VBox" type="VBoxContainer" parent="RecordsPanel/Margin"]
+[node name="VBox" type="VBoxContainer" parent="RecordsPanel/Margin" unique_id=1435924277]
 layout_mode = 2
 theme_override_constants/separation = 14
 
-[node name="Title" type="Label" parent="RecordsPanel/Margin/VBox"]
+[node name="Title" type="Label" parent="RecordsPanel/Margin/VBox" unique_id=1642667460]
 layout_mode = 2
+theme_override_font_sizes/font_size = 24
 text = "TABLA DE RECORDS"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 24
 
-[node name="RecordsList" type="VBoxContainer" parent="RecordsPanel/Margin/VBox"]
+[node name="RecordsList" type="VBoxContainer" parent="RecordsPanel/Margin/VBox" unique_id=632908841]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 3
 
-[node name="CloseButton" type="Button" parent="RecordsPanel/Margin/VBox"]
+[node name="CloseButton" type="Button" parent="RecordsPanel/Margin/VBox" unique_id=559847380]
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 text = "VOLVER"

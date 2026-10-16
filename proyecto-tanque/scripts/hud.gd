@@ -25,6 +25,11 @@ var arena: Node2D = null
 @onready var defeated_value: Label = $Interface/RunPanel/Margin/VBox/DefeatedValue
 @onready var difficulty_value: Label = $Interface/RunPanel/Margin/VBox/DifficultyValue
 @onready var credits_value: Label = $Interface/ShopPanel/Margin/VBox/CreditsValue
+@onready var shop_panel: PanelContainer = $Interface/ShopPanel
+@onready var shop_opaque: ColorRect = $Interface/ShopOpaque
+@onready var shop_grid: GridContainer = $Interface/ShopPanel/Margin/VBox/ShopGrid
+@onready var shop_store_icon: TextureRect = $Interface/ShopPanel/Margin/VBox/ShopHeader/StoreIcon
+@onready var shop_toggle_button: Button = $Interface/ShopPanel/Margin/VBox/ShopHeader/ShopToggleButton
 
 var shop_buttons: Dictionary = {}
 var shop_item_labels: Dictionary = {
@@ -42,10 +47,10 @@ var shop_key_labels: Dictionary = {
 	"repair_chassis_rear": "2",
 	"repair_chassis_left": "3",
 	"repair_chassis_right": "4",
-	"repair_turret": "5",
-	"upgrade_armor": "Q",
-	"upgrade_fire_rate": "W",
-	"upgrade_turret_rotation": "E",
+	"repair_turret": "Q",
+	"upgrade_armor": "W",
+	"upgrade_fire_rate": "E",
+	"upgrade_turret_rotation": "R",
 }
 
 const INTACT_COLOR := Color("4bd37b")
@@ -63,9 +68,17 @@ const REPAIR_ICON: Texture2D = preload("res://art/ui/repair_icon.png")
 const ARMOR_ICON: Texture2D = preload("res://art/ui/armor_icon.png")
 const FIRE_ICON: Texture2D = preload("res://art/ui/fire_icon.png")
 const TURRET_ICON: Texture2D = preload("res://art/ui/config_icon.png")
-const SHOP_ICON_SIZE := 16
+const SHOP_ICON_SIZE := 14
+const SHOP_MIN_ICON_SIZE := 16
+const SHOP_MAX_BUTTON_SIZE := Vector2(205, 32)
+const SHOP_MIN_BUTTON_SIZE := Vector2(52, 40)
+const SHOP_MAX_RECT := Rect2(801, 435, 452, 270)
+const SHOP_MIN_RECT := Rect2(982, 555, 271, 150)
+const KEY_LABEL_COLOR := Color("24313a")
+const SHOP_MIN_KEY_SIZE := Vector2(24, 24)
 
 var key_badges: Dictionary = {}
+var shop_minimized := false
 var shop_item_icons: Dictionary = {
 	"repair_chassis_front": REPAIR_ICON,
 	"repair_chassis_rear": REPAIR_ICON,
@@ -100,7 +113,8 @@ func _configure_visual_theme() -> void:
 		button.add_theme_stylebox_override("hover", _create_button_style(BUTTON_HOVER))
 		button.add_theme_stylebox_override("pressed", _create_button_style(BUTTON_PRESSED))
 		button.add_theme_stylebox_override("disabled", _create_button_style(BUTTON_DISABLED))
-		button.icon = _create_scaled_icon(shop_item_icons[shop_buttons.find_key(button)], SHOP_ICON_SIZE)
+		button.icon = shop_item_icons[shop_buttons.find_key(button)]
+		button.add_theme_constant_override("icon_max_width", SHOP_ICON_SIZE)
 		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		var item_id: String = shop_buttons.find_key(button)
 		var badge := TextureRect.new()
@@ -117,14 +131,16 @@ func _configure_visual_theme() -> void:
 		key_label.text = shop_key_labels[item_id]
 		key_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		key_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		key_label.add_theme_color_override("font_color", KEY_LABEL_COLOR)
 		key_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		button.add_child(key_label)
 		key_badges[item_id] = {"badge": badge, "label": key_label}
-
-func _create_scaled_icon(texture: Texture2D, size: int) -> ImageTexture:
-	var image := texture.get_image()
-	image.resize(size, size, Image.INTERPOLATE_NEAREST)
-	return ImageTexture.create_from_image(image)
+	shop_toggle_button.pressed.connect(_toggle_shop)
+	shop_toggle_button.add_theme_stylebox_override("normal", _create_button_style(BUTTON_NORMAL))
+	shop_toggle_button.add_theme_stylebox_override("hover", _create_button_style(BUTTON_HOVER))
+	shop_toggle_button.add_theme_stylebox_override("pressed", _create_button_style(BUTTON_PRESSED))
+	shop_toggle_button.add_theme_stylebox_override("disabled", _create_button_style(BUTTON_DISABLED))
+	_set_shop_mode(false)
 
 func _create_panel_style() -> StyleBoxTexture:
 	var style := StyleBoxTexture.new()
@@ -145,14 +161,16 @@ func _create_button_style(texture: Texture2D) -> StyleBoxTexture:
 	return style
 
 func _apply_localized_text() -> void:
-	$Interface/StatsPanel/Margin/VBox/Title.text = Localization.text("tank_status")
+	$Interface/StatsPanel/Margin/VBox/TitleBar/Title.text = Localization.text("tank_status")
 	$Interface/StatsPanel/Margin/VBox/DamageTitle.text = Localization.text("damage_zones")
 	$Interface/StatsPanel/Margin/VBox/DamageGrid/FrontName.text = Localization.text("front")
 	$Interface/StatsPanel/Margin/VBox/DamageGrid/RearName.text = Localization.text("rear")
 	$Interface/StatsPanel/Margin/VBox/DamageGrid/LeftName.text = Localization.text("left")
 	$Interface/StatsPanel/Margin/VBox/DamageGrid/RightName.text = Localization.text("right")
 	$Interface/StatsPanel/Margin/VBox/DamageGrid/TurretName.text = Localization.text("turret")
-	$Interface/RunPanel/Margin/VBox/Title.text = Localization.text("run")
+	$Interface/RunPanel/Margin/VBox/TitleBar/Title.text = Localization.text("run")
+	$Interface/ShopPanel/Margin/VBox/Title.text = Localization.text("shop")
+	shop_toggle_button.text = Localization.text("shop_minimize")
 
 func _process(_delta: float) -> void:
 	_update_display()
@@ -171,11 +189,15 @@ func _update_display() -> void:
 				var level: int = state.level
 				var max_level: int = state.max_level
 				var level_text := "MAX" if level >= max_level else "N. %d/%d" % [level, max_level]
-				shop_buttons[item_id].text = "    %s [%s] $%d" % [item_label, level_text, state.price]
+				if not shop_minimized:
+					shop_buttons[item_id].text = "    %s [%s] $%d" % [item_label, level_text, state.price]
 			else:
-				shop_buttons[item_id].text = "    %s $%d" % [item_label, state.price]
+				if not shop_minimized:
+					shop_buttons[item_id].text = "    %s $%d" % [item_label, state.price]
 			shop_buttons[item_id].disabled = not state.can_buy
 			key_badges[item_id].badge.texture = KEY_BADGE_DISABLED if shop_buttons[item_id].disabled else KEY_BADGE_NORMAL
+			if shop_minimized:
+				key_badges[item_id].label.modulate = Color(0.55, 0.62, 0.64, 1) if shop_buttons[item_id].disabled else Color.WHITE
 
 	var damaged_zones: Dictionary = tank.get("damaged_zones")
 	for zone_id in zone_colors:
@@ -210,6 +232,41 @@ func _on_shop_button_pressed(item_id: String) -> void:
 	if is_instance_valid(arena):
 		arena.call("try_purchase", item_id)
 
+func _toggle_shop() -> void:
+	_set_shop_mode(not shop_minimized)
+
+func _set_shop_mode(minimized: bool) -> void:
+	shop_minimized = minimized
+	var panel_rect := SHOP_MIN_RECT if minimized else SHOP_MAX_RECT
+	shop_panel.custom_minimum_size = panel_rect.size
+	shop_panel.offset_left = panel_rect.position.x
+	shop_panel.offset_top = panel_rect.position.y
+	shop_panel.offset_right = panel_rect.end.x
+	shop_panel.offset_bottom = panel_rect.end.y
+	shop_opaque.offset_left = panel_rect.position.x
+	shop_opaque.offset_top = panel_rect.position.y
+	shop_opaque.offset_right = panel_rect.end.x
+	shop_opaque.offset_bottom = panel_rect.end.y
+	# shop_store_icon.visible = not minimized
+	credits_value.visible = not minimized
+	shop_grid.columns = 4 if minimized else 2
+	shop_toggle_button.text = Localization.text("shop_maximize" if minimized else "shop_minimize")
+	for item_id in shop_buttons:
+		var button: Button = shop_buttons[item_id]
+		button.custom_minimum_size = SHOP_MIN_BUTTON_SIZE if minimized else SHOP_MAX_BUTTON_SIZE
+		button.alignment = HORIZONTAL_ALIGNMENT_CENTER if minimized else HORIZONTAL_ALIGNMENT_LEFT
+		button.add_theme_constant_override("icon_max_width", SHOP_MIN_ICON_SIZE if minimized else SHOP_ICON_SIZE)
+		var badge: TextureRect = key_badges[item_id].badge
+		var key_label: Label = key_badges[item_id].label
+		badge.visible = minimized
+		key_label.visible = minimized
+		badge.position = Vector2(14, 8) if minimized else Vector2(4, 5)
+		badge.size = SHOP_MIN_KEY_SIZE if minimized else Vector2(22, 22)
+		key_label.position = badge.position
+		key_label.size = badge.size
+		if minimized:
+			button.text = ""
+
 func _unhandled_key_input(event: InputEvent) -> void:
 	if not event.pressed or event.echo or not is_instance_valid(arena):
 		return
@@ -218,10 +275,10 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		KEY_2: "repair_chassis_rear",
 		KEY_3: "repair_chassis_left",
 		KEY_4: "repair_chassis_right",
-		KEY_5: "repair_turret",
-		KEY_Q: "upgrade_armor",
-		KEY_W: "upgrade_fire_rate",
-		KEY_E: "upgrade_turret_rotation",
+		KEY_Q: "repair_turret",
+		KEY_W: "upgrade_armor",
+		KEY_E: "upgrade_fire_rate",
+		KEY_R: "upgrade_turret_rotation",
 	}
 	if key_to_item.has(event.keycode):
 		_on_shop_button_pressed(key_to_item[event.keycode])

@@ -1,6 +1,7 @@
 [gd_scene load_steps=2 format=3]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_menu"]
+[ext_resource type="Texture2D" path="res://art/ui/config_icon.png" id="2_config"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -92,6 +93,8 @@ theme_override_font_sizes/font_size = 22
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 text = "CONFIGURACIÓN"
+icon = ExtResource("2_config")
+expand_icon = true
 
 [node name="RecordsButton" type="Button" parent="Center/Panel/Margin/VBox"]
 custom_minimum_size = Vector2(0, 42)

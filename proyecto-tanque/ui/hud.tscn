@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dbaphd5f33i3h"]
 
 [ext_resource type="Script" uid="uid://64qxq024lhta" path="res://scripts/hud.gd" id="1_hud"]
+[ext_resource type="Texture2D" uid="uid://dfscex0aieq3t" path="res://art/ui/tienda.png" id="2_store"]
 
 [node name="HUD" type="CanvasLayer" unique_id=711287862]
 script = ExtResource("1_hud")
@@ -13,6 +14,33 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+
+[node name="StatsOpaque" type="ColorRect" parent="Interface" unique_id=733464471]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 348.0
+offset_bottom = 290.0
+mouse_filter = 2
+color = Color(0.039216, 0.070588, 0.090196, 0.96)
+
+[node name="RunOpaque" type="ColorRect" parent="Interface" unique_id=1736504313]
+layout_mode = 0
+offset_left = 932.0
+offset_top = 24.0
+offset_right = 1256.0
+offset_bottom = 206.0
+mouse_filter = 2
+color = Color(0.039216, 0.070588, 0.090196, 0.96)
+
+[node name="ShopOpaque" type="ColorRect" parent="Interface" unique_id=2143587051]
+layout_mode = 0
+offset_left = 801.0
+offset_top = 435.0
+offset_right = 1253.0
+offset_bottom = 705.0
+mouse_filter = 2
+color = Color(0.039216, 0.070588, 0.090196, 0.96)
 
 [node name="StatsPanel" type="PanelContainer" parent="Interface" unique_id=949418260]
 layout_mode = 0
@@ -177,10 +205,13 @@ theme_override_constants/margin_bottom = 10
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="Title" type="Label" parent="Interface/ShopPanel/Margin/VBox" unique_id=87907496]
+[node name="StoreIcon" type="TextureRect" parent="Interface/ShopPanel/Margin/VBox" unique_id=1553024654]
+custom_minimum_size = Vector2(0, 34)
 layout_mode = 2
-theme_override_font_sizes/font_size = 18
-text = "TIENDA"
+mouse_filter = 2
+texture = ExtResource("2_store")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="CreditsValue" type="Label" parent="Interface/ShopPanel/Margin/VBox" unique_id=195037865]
 layout_mode = 2

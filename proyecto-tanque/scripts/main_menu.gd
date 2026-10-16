@@ -21,8 +21,16 @@ extends Control
 @onready var back_button: Button = $SettingsPanel/Margin/VBox/BackButton
 @onready var reset_button: Button = $SettingsPanel/Margin/VBox/ResetButton
 
+const PIXEL_FONT: Font = preload("res://art/ui/pixel_font.ttf")
+const WINDOW_FRAME: Texture2D = preload("res://art/ui/windows_frame.png")
+const BUTTON_NORMAL: Texture2D = preload("res://art/ui/button_normal.png")
+const BUTTON_HOVER: Texture2D = preload("res://art/ui/button_hover.png")
+const BUTTON_PRESSED: Texture2D = preload("res://art/ui/button_pressed.png")
+const BUTTON_DISABLED: Texture2D = preload("res://art/ui/button_disabled.png")
+
 func _ready() -> void:
 	_apply_localized_text()
+	_configure_visual_theme()
 	play_button.grab_focus()
 	play_button.pressed.connect(_on_play_pressed)
 	settings_button.pressed.connect(_show_settings)
@@ -38,6 +46,35 @@ func _ready() -> void:
 	music_slider.value_changed.connect(_update_setting_labels)
 	_load_settings()
 	_update_setting_labels()
+
+func _configure_visual_theme() -> void:
+	for control in find_children("*", "Control", true, false):
+		control.add_theme_font_override("font", PIXEL_FONT)
+	for panel in [$Center/Panel, $SettingsPanel, $RecordsPanel]:
+		panel.add_theme_stylebox_override("panel", _create_panel_style())
+	for button in find_children("*", "Button", true, false):
+		button.add_theme_stylebox_override("normal", _create_button_style(BUTTON_NORMAL))
+		button.add_theme_stylebox_override("hover", _create_button_style(BUTTON_HOVER))
+		button.add_theme_stylebox_override("pressed", _create_button_style(BUTTON_PRESSED))
+		button.add_theme_stylebox_override("disabled", _create_button_style(BUTTON_DISABLED))
+
+func _create_panel_style() -> StyleBoxTexture:
+	var style := StyleBoxTexture.new()
+	style.texture = WINDOW_FRAME
+	style.texture_margin_left = 8.0
+	style.texture_margin_top = 8.0
+	style.texture_margin_right = 8.0
+	style.texture_margin_bottom = 8.0
+	return style
+
+func _create_button_style(texture: Texture2D) -> StyleBoxTexture:
+	var style := StyleBoxTexture.new()
+	style.texture = texture
+	style.texture_margin_left = 6.0
+	style.texture_margin_top = 6.0
+	style.texture_margin_right = 6.0
+	style.texture_margin_bottom = 6.0
+	return style
 
 func _apply_localized_text() -> void:
 	$Center/Panel/Margin/VBox/Title.text = Localization.text("game_title")

@@ -3,6 +3,8 @@
 [ext_resource type="Script" uid="uid://64qxq024lhta" path="res://scripts/hud.gd" id="1_hud"]
 [ext_resource type="Texture2D" uid="uid://dfscex0aieq3t" path="res://art/ui/tienda.png" id="2_store"]
 [ext_resource type="Texture2D" uid="uid://byaj5iy5emtq7" path="res://art/ui/fondo_titulo.png" id="3_title"]
+[ext_resource type="Texture2D" uid="uid://ca8duwkk3queh" path="res://art/tank/tank_chassis.png" id="4_chassis"]
+[ext_resource type="Texture2D" uid="uid://c5iapitkug66a" path="res://art/tank/tank_turret.png" id="5_turret"]
 
 [node name="HUD" type="CanvasLayer" unique_id=711287862]
 script = ExtResource("1_hud")
@@ -21,15 +23,15 @@ layout_mode = 0
 offset_left = 24.0
 offset_top = 24.0
 offset_right = 348.0
-offset_bottom = 294.0
+offset_bottom = 250.0
 mouse_filter = 2
 color = Color(0.039215688, 0.07058824, 0.09019608, 0.6156863)
 
 [node name="RunOpaque" type="ColorRect" parent="Interface" unique_id=1659726808]
 layout_mode = 0
-offset_left = 932.0
+offset_left = 1016.0
 offset_top = 24.0
-offset_right = 1265.0
+offset_right = 1253.0
 offset_bottom = 206.0
 mouse_filter = 2
 color = Color(0.039215688, 0.07058824, 0.09019608, 0.6156863)
@@ -48,7 +50,7 @@ layout_mode = 0
 offset_left = 24.0
 offset_top = 24.0
 offset_right = 348.0
-offset_bottom = 290.0
+offset_bottom = 250.0
 
 [node name="Margin" type="MarginContainer" parent="Interface/StatsPanel" unique_id=1800984796]
 layout_mode = 2
@@ -77,84 +79,85 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0.89411765, 0.74509805, 0.2901961, 1)
 theme_override_font_sizes/font_size = 18
-text = "E. DEL TANQUE"
+text = "tank_status"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="DamageTitle" type="Label" parent="Interface/StatsPanel/Margin/VBox" unique_id=1322123908]
+[node name="TankDiagram" type="Control" parent="Interface/StatsPanel/Margin/VBox" unique_id=769493964]
+custom_minimum_size = Vector2(0, 78)
 layout_mode = 2
-text = "Zonas de daño"
 
-[node name="DamageGrid" type="GridContainer" parent="Interface/StatsPanel/Margin/VBox" unique_id=769493964]
-layout_mode = 2
-theme_override_constants/h_separation = 8
-theme_override_constants/v_separation = 4
-columns = 3
+[node name="Chassis" type="TextureRect" parent="Interface/StatsPanel/Margin/VBox/TankDiagram" unique_id=1050549667]
+layout_mode = 0
+offset_left = 90.0
+offset_top = 18.0
+offset_right = 162.0
+offset_bottom = 66.0
+mouse_filter = 2
+texture = ExtResource("4_chassis")
+expand_mode = 1
+stretch_mode = 5
 
-[node name="FrontColor" type="ColorRect" parent="Interface/StatsPanel/Margin/VBox/DamageGrid" unique_id=255490990]
-custom_minimum_size = Vector2(18, 18)
-layout_mode = 2
+[node name="Turret" type="TextureRect" parent="Interface/StatsPanel/Margin/VBox/TankDiagram" unique_id=747623635]
+layout_mode = 0
+offset_left = 109.0
+offset_top = 38.0
+offset_right = 164.0
+offset_bottom = 46.0
+mouse_filter = 2
+texture = ExtResource("5_turret")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="FrontColor" type="ColorRect" parent="Interface/StatsPanel/Margin/VBox/TankDiagram" unique_id=664519457]
+custom_minimum_size = Vector2(12, 12)
+layout_mode = 0
+offset_left = 165.0
+offset_top = 36.0
+offset_right = 177.0
+offset_bottom = 48.0
+mouse_filter = 2
 color = Color(0.294118, 0.827451, 0.482353, 1)
 
-[node name="FrontName" type="Label" parent="Interface/StatsPanel/Margin/VBox/DamageGrid" unique_id=1023435604]
-layout_mode = 2
-text = "Frontal"
-
-[node name="FrontState" type="Label" parent="Interface/StatsPanel/Margin/VBox/DamageGrid" unique_id=1788821861]
-layout_mode = 2
-text = "OK"
-
-[node name="RearColor" type="ColorRect" parent="Interface/StatsPanel/Margin/VBox/DamageGrid" unique_id=1747286634]
-custom_minimum_size = Vector2(18, 18)
-layout_mode = 2
+[node name="RearColor" type="ColorRect" parent="Interface/StatsPanel/Margin/VBox/TankDiagram" unique_id=1840586389]
+custom_minimum_size = Vector2(12, 12)
+layout_mode = 0
+offset_left = 75.0
+offset_top = 36.0
+offset_right = 87.0
+offset_bottom = 48.0
+mouse_filter = 2
 color = Color(0.294118, 0.827451, 0.482353, 1)
 
-[node name="RearName" type="Label" parent="Interface/StatsPanel/Margin/VBox/DamageGrid" unique_id=1239346017]
-layout_mode = 2
-text = "Trasero"
-
-[node name="RearState" type="Label" parent="Interface/StatsPanel/Margin/VBox/DamageGrid" unique_id=883866087]
-layout_mode = 2
-text = "OK"
-
-[node name="LeftColor" type="ColorRect" parent="Interface/StatsPanel/Margin/VBox/DamageGrid" unique_id=987885426]
-custom_minimum_size = Vector2(18, 18)
-layout_mode = 2
+[node name="LeftColor" type="ColorRect" parent="Interface/StatsPanel/Margin/VBox/TankDiagram" unique_id=919494998]
+custom_minimum_size = Vector2(12, 12)
+layout_mode = 0
+offset_left = 120.0
+offset_top = 4.0
+offset_right = 132.0
+offset_bottom = 16.0
+mouse_filter = 2
 color = Color(0.294118, 0.827451, 0.482353, 1)
 
-[node name="LeftName" type="Label" parent="Interface/StatsPanel/Margin/VBox/DamageGrid" unique_id=498780809]
-layout_mode = 2
-text = "Izquierdo"
-
-[node name="LeftState" type="Label" parent="Interface/StatsPanel/Margin/VBox/DamageGrid" unique_id=213467982]
-layout_mode = 2
-text = "OK"
-
-[node name="RightColor" type="ColorRect" parent="Interface/StatsPanel/Margin/VBox/DamageGrid" unique_id=1379374353]
-custom_minimum_size = Vector2(18, 18)
-layout_mode = 2
+[node name="RightColor" type="ColorRect" parent="Interface/StatsPanel/Margin/VBox/TankDiagram" unique_id=1250961607]
+custom_minimum_size = Vector2(12, 12)
+layout_mode = 0
+offset_left = 120.0
+offset_top = 68.0
+offset_right = 132.0
+offset_bottom = 80.0
+mouse_filter = 2
 color = Color(0.294118, 0.827451, 0.482353, 1)
 
-[node name="RightName" type="Label" parent="Interface/StatsPanel/Margin/VBox/DamageGrid" unique_id=1251320699]
-layout_mode = 2
-text = "Derecho"
-
-[node name="RightState" type="Label" parent="Interface/StatsPanel/Margin/VBox/DamageGrid" unique_id=1580529956]
-layout_mode = 2
-text = "OK"
-
-[node name="TurretColor" type="ColorRect" parent="Interface/StatsPanel/Margin/VBox/DamageGrid" unique_id=1932295756]
-custom_minimum_size = Vector2(18, 18)
-layout_mode = 2
+[node name="TurretColor" type="ColorRect" parent="Interface/StatsPanel/Margin/VBox/TankDiagram" unique_id=1374889320]
+custom_minimum_size = Vector2(12, 12)
+layout_mode = 0
+offset_left = 120.0
+offset_top = 36.0
+offset_right = 132.0
+offset_bottom = 48.0
+mouse_filter = 2
 color = Color(0.294118, 0.827451, 0.482353, 1)
-
-[node name="TurretName" type="Label" parent="Interface/StatsPanel/Margin/VBox/DamageGrid" unique_id=2064813296]
-layout_mode = 2
-text = "Torreta"
-
-[node name="TurretState" type="Label" parent="Interface/StatsPanel/Margin/VBox/DamageGrid" unique_id=257504933]
-layout_mode = 2
-text = "OK"
 
 [node name="AttackValue" type="Label" parent="Interface/StatsPanel/Margin/VBox" unique_id=1126464355]
 layout_mode = 2
@@ -166,7 +169,7 @@ text = "Movimiento: 35 px/s"
 
 [node name="RunPanel" type="PanelContainer" parent="Interface" unique_id=1388535546]
 layout_mode = 0
-offset_left = 932.0
+offset_left = 1016.0
 offset_top = 24.0
 offset_right = 1256.0
 offset_bottom = 206.0

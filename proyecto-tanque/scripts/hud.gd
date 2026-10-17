@@ -5,18 +5,11 @@ var tank: Node2D = null
 var arena: Node2D = null
 
 @onready var zone_colors: Dictionary = {
-	"chassis_front": $Interface/StatsPanel/Margin/VBox/DamageGrid/FrontColor,
-	"chassis_rear": $Interface/StatsPanel/Margin/VBox/DamageGrid/RearColor,
-	"chassis_left": $Interface/StatsPanel/Margin/VBox/DamageGrid/LeftColor,
-	"chassis_right": $Interface/StatsPanel/Margin/VBox/DamageGrid/RightColor,
-	"turret": $Interface/StatsPanel/Margin/VBox/DamageGrid/TurretColor,
-}
-@onready var zone_states: Dictionary = {
-	"chassis_front": $Interface/StatsPanel/Margin/VBox/DamageGrid/FrontState,
-	"chassis_rear": $Interface/StatsPanel/Margin/VBox/DamageGrid/RearState,
-	"chassis_left": $Interface/StatsPanel/Margin/VBox/DamageGrid/LeftState,
-	"chassis_right": $Interface/StatsPanel/Margin/VBox/DamageGrid/RightState,
-	"turret": $Interface/StatsPanel/Margin/VBox/DamageGrid/TurretState,
+	"chassis_front": $Interface/StatsPanel/Margin/VBox/TankDiagram/FrontColor,
+	"chassis_rear": $Interface/StatsPanel/Margin/VBox/TankDiagram/RearColor,
+	"chassis_left": $Interface/StatsPanel/Margin/VBox/TankDiagram/LeftColor,
+	"chassis_right": $Interface/StatsPanel/Margin/VBox/TankDiagram/RightColor,
+	"turret": $Interface/StatsPanel/Margin/VBox/TankDiagram/TurretColor,
 }
 @onready var attack_value: Label = $Interface/StatsPanel/Margin/VBox/AttackValue
 @onready var movement_value: Label = $Interface/StatsPanel/Margin/VBox/MovementValue
@@ -72,8 +65,9 @@ const SHOP_ICON_SIZE := 14
 const SHOP_MIN_ICON_SIZE := 16
 const SHOP_MAX_BUTTON_SIZE := Vector2(205, 32)
 const SHOP_MIN_BUTTON_SIZE := Vector2(52, 40)
+# Rect2(X, Y, Ancho, Alto)
 const SHOP_MAX_RECT := Rect2(801, 435, 452, 270)
-const SHOP_MIN_RECT := Rect2(982, 555, 271, 150)
+const SHOP_MIN_RECT := Rect2(990, 535, 271, 150)
 const KEY_LABEL_COLOR := Color("24313a")
 const SHOP_MIN_KEY_SIZE := Vector2(24, 24)
 
@@ -162,18 +156,13 @@ func _create_button_style(texture: Texture2D) -> StyleBoxTexture:
 
 func _apply_localized_text() -> void:
 	$Interface/StatsPanel/Margin/VBox/TitleBar/Title.text = Localization.text("tank_status")
-	$Interface/StatsPanel/Margin/VBox/DamageTitle.text = Localization.text("damage_zones")
-	$Interface/StatsPanel/Margin/VBox/DamageGrid/FrontName.text = Localization.text("front")
-	$Interface/StatsPanel/Margin/VBox/DamageGrid/RearName.text = Localization.text("rear")
-	$Interface/StatsPanel/Margin/VBox/DamageGrid/LeftName.text = Localization.text("left")
-	$Interface/StatsPanel/Margin/VBox/DamageGrid/RightName.text = Localization.text("right")
-	$Interface/StatsPanel/Margin/VBox/DamageGrid/TurretName.text = Localization.text("turret")
 	$Interface/RunPanel/Margin/VBox/TitleBar/Title.text = Localization.text("run")
 	$Interface/ShopPanel/Margin/VBox/Title.text = Localization.text("shop")
 	shop_toggle_button.text = Localization.text("shop_minimize")
 
 func _process(_delta: float) -> void:
 	_update_display()
+	_sync_shop_opaque()
 
 func _update_display() -> void:
 	if not is_instance_valid(tank):
@@ -203,8 +192,6 @@ func _update_display() -> void:
 	for zone_id in zone_colors:
 		var damaged: bool = damaged_zones.get(zone_id, false)
 		zone_colors[zone_id].color = DAMAGED_COLOR if damaged else INTACT_COLOR
-		zone_states[zone_id].text = Localization.text("damaged") if damaged else Localization.text("ok")
-		zone_states[zone_id].modulate = DAMAGED_COLOR if damaged else MUTED_TEXT_COLOR
 
 	var shoot_timer: Timer = tank.get("shoot_timer")
 	var attack_interval: float = shoot_timer.wait_time if shoot_timer else 0.0
@@ -238,15 +225,21 @@ func _toggle_shop() -> void:
 func _set_shop_mode(minimized: bool) -> void:
 	shop_minimized = minimized
 	var panel_rect := SHOP_MIN_RECT if minimized else SHOP_MAX_RECT
+
+	# Panel de la tienda
 	shop_panel.custom_minimum_size = panel_rect.size
 	shop_panel.offset_left = panel_rect.position.x
 	shop_panel.offset_top = panel_rect.position.y
-	shop_panel.offset_right = panel_rect.end.x
-	shop_panel.offset_bottom = panel_rect.end.y
+	shop_panel.offset_right = panel_rect.position.x + panel_rect.size.x
+	shop_panel.offset_bottom = panel_rect.position.y + panel_rect.size.y
+
+	# Fondo opaco
+	shop_opaque.custom_minimum_size = panel_rect.size
 	shop_opaque.offset_left = panel_rect.position.x
 	shop_opaque.offset_top = panel_rect.position.y
-	shop_opaque.offset_right = panel_rect.end.x
-	shop_opaque.offset_bottom = panel_rect.end.y
+	shop_opaque.offset_right = panel_rect.position.x + panel_rect.size.x
+	shop_opaque.offset_bottom = panel_rect.position.y + panel_rect.size.y
+
 	# shop_store_icon.visible = not minimized
 	credits_value.visible = not minimized
 	shop_grid.columns = 4 if minimized else 2
@@ -266,6 +259,12 @@ func _set_shop_mode(minimized: bool) -> void:
 		key_label.size = badge.size
 		if minimized:
 			button.text = ""
+
+func _sync_shop_opaque() -> void:
+	if not is_instance_valid(shop_panel) or not is_instance_valid(shop_opaque):
+		return
+	shop_opaque.position = shop_panel.position
+	shop_opaque.size = shop_panel.size
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if not event.pressed or event.echo or not is_instance_valid(arena):
